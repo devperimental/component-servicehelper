@@ -1,0 +1,25 @@
+{
+  "name": "nuget-package-template",
+  "version": "0.0.0-development",
+  "description": "Example nuget package repo using semantic release",
+  "main": "index.js",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.2",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.7",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "semantic-release": "^20.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Architected/nuget-package-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Architected/nuget-package-template/issues"
+  },
+  "homepage": "https://github.com/Architected/nuget-package-template#readme"
+}

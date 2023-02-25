@@ -1,0 +1,24 @@
+{
+  "branches": [
+    "main",
+    {
+      "name": "alpha*",
+      "channel": "alpha",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/git",
+    "@semantic-release/github",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "dotnet pack ./src/code --configuration release -p:PackageOutputPath=../publish_packages -p:PackageVersion=\"${nextRelease.version}\"",
+        "publishCmd": "dotnet nuget push \"**/publish_packages/*.nupkg\" --source \"github\""
+      }
+    ]
+  ]
+}
