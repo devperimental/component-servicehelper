@@ -1,5 +1,5 @@
 {
-  "name": "nuget-package-template",
+  "name": "component-servicehelper",
   "version": "0.0.0-development",
   "description": "Example nuget package repo using semantic release",
   "main": "index.js",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Architected/nuget-package-template.git"
+    "url": "git+https://github.com/devperimental/component-servicehelper.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Architected/nuget-package-template/issues"
+    "url": "https://github.com/devperimental/component-servicehelper/issues"
   },
-  "homepage": "https://github.com/Architected/nuget-package-template#readme"
+  "homepage": "https://github.com/devperimental/component-servicehelper#readme"
 }
