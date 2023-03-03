@@ -2,41 +2,33 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.Messaging.Helper;
 using PlatformX.Messaging.Types;
 using PlatformX.Messaging.Types.Constants;
 using PlatformX.Queues.ServiceBus;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using PlatformX.Common.NTesting;
 using PlatformX.Settings.Helper;
+using PlatformX.Settings.Shared.Config;
 
 namespace PlatformX.Queues.NTesting
 {
     [TestFixture]
     public class ServiceBusQueueClientTest
     {
-        private BootstrapConfiguration _bootstrapConfiguration;
-        private RequestContext _requestContext;
-        private GenericRequest _genericRequest;
+        private EndpointHelperConfiguration _endpointHelperConfiguration;
+        private RequestContext? _requestContext;
+        private GenericRequest? _genericRequest;
+        private string _tenantId = "tenantId";
 
         [SetUp]
         public void Init()
         {
-            if (_bootstrapConfiguration == null)
-            {
-                _bootstrapConfiguration = TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
-            }
-
             if (_requestContext == null)
             {
                 _requestContext = new RequestContext
                 {
-                    PortalName = _bootstrapConfiguration.PortalName,
-                    IpAddress = TestConstants.Default_IpAddress,
-                    CorrelationId = TestConstants.Default_IpAddress,
+                    PortalName = "PortalName",
+                    IpAddress = TestHelper.Default_IpAddress,
+                    CorrelationId = TestHelper.Default_IpAddress,
                     SessionId = Guid.NewGuid().ToString(),
                     IdentityId = Guid.NewGuid().ToString()
                 };
@@ -44,27 +36,36 @@ namespace PlatformX.Queues.NTesting
 
             _genericRequest = new GenericRequest
             {
-                CorrelationId = TestConstants.Default_CorrelationId
+                CorrelationId = TestHelper.Default_CorrelationId
+            };
+
+            _endpointHelperConfiguration = new EndpointHelperConfiguration
+            {
+                Prefix = "dz",
+                Environment = "dev",
+                RoleKey = "mgmt",
+                Location = "syd",
+                Region = "au"
             };
         }
 
         private async Task TestSendMessageInternal(string mode = "")
         {
-            var endpointHelper = new EndpointHelper(_bootstrapConfiguration);
+            var endpointHelper = new EndpointHelper(_endpointHelperConfiguration);
             var applicationServiceTimestamp = DateTime.UtcNow.Ticks.ToString();
 
             var traceLogger = new Mock<ILogger<ServiceBusQueueClientTest>>();
-            var serviceBusClient = new ServiceBusQueueClient<ServiceBusQueueClientTest>(traceLogger.Object, endpointHelper, _bootstrapConfiguration);
+            var serviceBusClient = new ServiceBusQueueClient<ServiceBusQueueClientTest>(traceLogger.Object, endpointHelper, _tenantId);
             var messageId = Guid.NewGuid().ToString();
 
             var hashGenerationHelper = new HashGenerationHelper();
-            var requestHash = hashGenerationHelper.GenerateRequestInput(TestConstants.Default_ServiceKeyValue, TestConstants.Default_ServiceSecretValue, applicationServiceTimestamp, _requestContext.IpAddress, _requestContext.CorrelationId);
+            var requestHash = hashGenerationHelper.GenerateRequestInput(TestHelper.Default_ServiceKeyValue, TestHelper.Default_ServiceSecretValue, applicationServiceTimestamp, _requestContext.IpAddress, _requestContext.CorrelationId);
 
             var headers = new Dictionary<string, string>
             {
                 {ServiceHeaderConstants.RequestServiceHash, requestHash},
                 {ServiceHeaderConstants.PortalName, _requestContext.PortalName},
-                {ServiceHeaderConstants.RequestServiceKey, TestConstants.Default_ServiceKeyValue},
+                {ServiceHeaderConstants.RequestServiceKey, TestHelper.Default_ServiceKeyValue},
                 {ServiceHeaderConstants.RequestServiceTimestamp, applicationServiceTimestamp},
                 {ServiceHeaderConstants.IpAddress, _requestContext.IpAddress},
                 {ServiceHeaderConstants.CorrelationId, _requestContext.CorrelationId},

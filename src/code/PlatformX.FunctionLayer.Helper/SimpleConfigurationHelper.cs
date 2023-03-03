@@ -1,4 +1,4 @@
-﻿using PlatformX.Common.Behaviours;
+﻿using PlatformX.Common.Config.Interface;
 using System;
 
 namespace PlatformX.FunctionLayer.Helper

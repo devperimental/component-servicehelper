@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.FunctionLayer.Helper;
 using PlatformX.Messaging.Helper;
 using PlatformX.Messaging.Types;
@@ -11,18 +10,14 @@ using PlatformX.Messaging.Types.Constants;
 using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.ServiceLayer.Helper;
 using PlatformX.ServiceLayer.Types;
-using PlatformX.Settings.Behaviours;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using PlatformX.Common.NTesting;
+using PlatformX.Settings.Shared.Behaviours;
 
 namespace PlatformX.FunctionLayer.NTesting
 {
     public class FuntionHelperTest
     {
         private ServiceMetaData _serviceMetaData;
-        private BootstrapConfiguration _bootstrapConfiguration;
+        //private BootstrapConfiguration _bootstrapConfiguration;
 
         private string _hashOutcome;
         private string _requestServiceTimestamp;
@@ -38,22 +33,23 @@ namespace PlatformX.FunctionLayer.NTesting
         [SetUp]
         public void Setup()
         {
-            if (_bootstrapConfiguration == null)
-            {
-                _bootstrapConfiguration = TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
-            }
+            //if (_bootstrapConfiguration == null)
+            //{
+            //    _bootstrapConfiguration = TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
+            //}
 
             if (_serviceMetaData == null)
             {
-                _serviceMetaData = JsonConvert.DeserializeObject<ServiceMetaData>(_bootstrapConfiguration.PlatformServiceMetaData);
+                var platformServiceMetaData = "{\"Endpoints\": [{\"Type\": \"AZF\",\"Protocol\": \"HTTP\",\"Uri\": \"http://localhost:1111/Platform/Ping\"}],\"Method\": \"POST\",\"Keys\": {\"ServiceKey\": \"PLATFORM-SERVICE-KEY\",\"ServiceSecret\": \"PLATFORM-SERVICE-SECRET\"}}";
+                _serviceMetaData = JsonConvert.DeserializeObject<ServiceMetaData>(platformServiceMetaData);
             }
 
             _hashOutcome = "t5lcSDzNd05GCt3CKV3qXh5OUOEnt/VQmEItNVm7sHZnTHrY0SaGJQdDuI094c8sI4+pHbP+1EECVZZm1iP4RQ==";
             
             _requestServiceTimestamp = "637209686814252385";
-            _ipAddress = TestConstants.Default_IpAddress;
-            _correlationId = TestConstants.Default_CorrelationId;
-            _portalName = _bootstrapConfiguration.PortalName;
+            _ipAddress = TestHelper.Default_IpAddress;
+            _correlationId = TestHelper.Default_CorrelationId;
+            _portalName = "PortalName";
             _sessionId = Guid.NewGuid().ToString();
             _identityId = Guid.NewGuid().ToString();
             _userGlobalId = Guid.NewGuid().ToString();
@@ -68,8 +64,8 @@ namespace PlatformX.FunctionLayer.NTesting
             var hashGenerationHelper = new HashGenerationHelper();
             var traceLogger = new Mock<ILogger<FuntionHelperTest>>();
 
-            portalSettings.Setup(c => c.GetSecretString(_serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            portalSettings.Setup(c => c.GetSecretString(_serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
+            portalSettings.Setup(c => c.GetSecretString(_serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            portalSettings.Setup(c => c.GetSecretString(_serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
 
             portalSettings.Setup(c => c.GetBool(ServiceConfigurationKeyType.CheckTimestamp.ToString())).Returns(false);
             portalSettings.Setup(c => c.GetInt(ServiceConfigurationKeyType.CallExpirySeconds.ToString())).Returns(300);
@@ -99,7 +95,7 @@ namespace PlatformX.FunctionLayer.NTesting
             var httpRequestMessage = new HttpRequestMessage();
             httpRequestMessage.Headers.Add(ServiceHeaderConstants.RequestServiceHash, _hashOutcome);
             httpRequestMessage.Headers.Add(ServiceHeaderConstants.PortalName, _portalName);
-            httpRequestMessage.Headers.Add(ServiceHeaderConstants.RequestServiceKey, TestConstants.Default_ServiceKeyValue);
+            httpRequestMessage.Headers.Add(ServiceHeaderConstants.RequestServiceKey, TestHelper.Default_ServiceKeyValue);
             httpRequestMessage.Headers.Add(ServiceHeaderConstants.RequestServiceTimestamp, _requestServiceTimestamp);
             httpRequestMessage.Headers.Add(ServiceHeaderConstants.IpAddress, _ipAddress);
             httpRequestMessage.Headers.Add(ServiceHeaderConstants.CorrelationId, _correlationId);

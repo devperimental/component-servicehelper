@@ -9,7 +9,7 @@ using PlatformX.Queues.Behaviours;
 using PlatformX.ServiceLayer.Behaviours;
 using PlatformX.ServiceLayer.Types;
 using PlatformX.ServiceLayer.Types.Constants;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using PlatformX.Storage.Behaviours;
 using System;
 using System.Collections.Generic;
@@ -117,16 +117,8 @@ namespace PlatformX.ServiceLayer.Helper
 
             var roleTypeSetting = GetFulfillmentRoleTypeSettings(serviceMetaData);
 
-            if (_protectedConfiguration.BootstrapConfiguration == null)
-            {
-                throw new ArgumentNullException("_protectedConfiguration.BootstrapConfiguration", "BootstrapConfiguration is null in TryRetrieveFile");
-            }
-
-            if (_protectedConfiguration.BootstrapConfiguration.Environment == "local")
-            {
-                _traceLogger.LogInformation($"TryRetrieveFile: {serviceName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}|{filePath}");
-            }
-
+            _traceLogger.LogInformation($"TryRetrieveFile: {serviceName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}|{filePath}");
+            
             return _fileStore.LoadFile<TResponse>(serviceName, roleTypeSetting.RoleKey, roleTypeSetting.RegionKey, roleTypeSetting.LocationKey, filePath);
         }
 
@@ -137,15 +129,7 @@ namespace PlatformX.ServiceLayer.Helper
 
             var roleTypeSetting = GetFulfillmentRoleTypeSettings(serviceMetaData);
 
-            if (_protectedConfiguration.BootstrapConfiguration == null)
-            {
-                throw new ArgumentNullException("_protectedConfiguration.BootstrapConfiguration", "BootstrapConfiguration is null in TrySaveFile");
-            }
-
-            if (_protectedConfiguration.BootstrapConfiguration.Environment == "local")
-            {
-                _traceLogger.LogInformation($"TrySaveFile: {serviceName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}|{filePath}");
-            }
+            _traceLogger.LogInformation($"TrySaveFile: {serviceName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}|{filePath}");
             
             _fileStore.SaveFile(data, serviceName, roleTypeSetting.RoleKey, roleTypeSetting.RegionKey, roleTypeSetting.LocationKey, filePath, contentType);
         }
@@ -254,11 +238,8 @@ namespace PlatformX.ServiceLayer.Helper
 
                 var roleTypeSetting = GetFulfillmentRoleTypeSettings(serviceMetaData);
 
-                if (_protectedConfiguration.BootstrapConfiguration.Environment != "prod" )
-                {
-                    _traceLogger.LogInformation($"AzfSubmitRequestQueue: {queueName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}");
-                }
-                
+                _traceLogger.LogInformation($"AzfSubmitRequestQueue: {queueName}|{roleTypeSetting.RoleKey}|{roleTypeSetting.RegionKey}|{roleTypeSetting.LocationKey}");
+
                 if (queueName == "authorize-record")
                 {
                     _traceLogger.LogInformation($"deferSeconds: {deferSeconds}, operation data: {JsonConvert.SerializeObject(operation)}");

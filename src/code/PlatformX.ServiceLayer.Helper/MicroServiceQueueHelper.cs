@@ -5,7 +5,7 @@ using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.Queues.Behaviours;
 using PlatformX.ServiceLayer.Behaviours;
 using PlatformX.ServiceLayer.Types;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using System;
 using System.Threading.Tasks;
 

@@ -1,33 +1,28 @@
 ﻿using Newtonsoft.Json;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.Storage.Behaviours;
 using PlatformX.Storage.Types;
 using System;
 using System.IO;
-using PlatformX.Settings.Behaviours;
 using PlatformX.Messaging.Types.Constants;
 using System.Threading.Tasks;
+using PlatformX.Settings.Shared.Behaviours;
 
 namespace PlatformX.Storage.StoreClient
 {
     public class FileStore : IFileStore
     {
         private readonly IStorageProvider _storageProvider;
-        private readonly BootstrapConfiguration _bootstrapConfiguration;
+        //private readonly BootstrapConfiguration _bootstrapConfiguration;
         private readonly IEndpointHelper _endpointHelper;
-
+        private string _tenantId;
         public FileStore(IStorageProvider storageProvider, 
-            BootstrapConfiguration bootstrapConfiguration,
-            IEndpointHelper endpointHelper)
+            IEndpointHelper endpointHelper,
+            string tenantId)
         {
             _storageProvider = storageProvider ?? throw new ArgumentNullException(nameof(storageProvider), "storageProvider not defined in FileStore constructor");
-            _bootstrapConfiguration = bootstrapConfiguration ?? throw new ArgumentNullException(nameof(bootstrapConfiguration), "bootstrapConfiguration not defined in FileStore constructor");
+          //  _bootstrapConfiguration = bootstrapConfiguration ?? throw new ArgumentNullException(nameof(bootstrapConfiguration), "bootstrapConfiguration not defined in FileStore constructor");
             _endpointHelper = endpointHelper ?? throw new ArgumentNullException(nameof(endpointHelper), "endpointHelper not defined in FileStore constructor");
-
-            if (string.IsNullOrEmpty(_bootstrapConfiguration.TenantId))
-            {
-                throw new ArgumentNullException(nameof(_bootstrapConfiguration.TenantId), "TenantId not defined in configuration");
-            }
+            _tenantId = tenantId;
         }
 
         public TResponse LoadClientFile<TResponse>(string serviceName, string filePath, string regionKey, string locationKey)
@@ -86,7 +81,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -105,7 +100,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -158,7 +153,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -187,7 +182,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -224,7 +219,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -278,7 +273,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 
@@ -322,7 +317,7 @@ namespace PlatformX.Storage.StoreClient
             var storageDefinition = new StorageDefinition
             {
                 AccountName = storageAccountName,
-                TenantId = _bootstrapConfiguration.TenantId,
+                TenantId = _tenantId,
                 ContainerName = serviceName.ToLower()
             };
 

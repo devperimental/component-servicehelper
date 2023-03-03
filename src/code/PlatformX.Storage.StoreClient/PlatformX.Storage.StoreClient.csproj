@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="PlatformX.Common.Types" Version="4.4.0" />
-    <PackageReference Include="PlatformX.Messaging.Types" Version="7.3.0" />
-    <PackageReference Include="PlatformX.Settings.Behaviours" Version="5.0.0" />
-    <PackageReference Include="PlatformX.Storage.Behaviours" Version="7.3.0" />
+    <PackageReference Include="PlatformX.Settings.Shared" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlatformX.Messaging.Types\PlatformX.Messaging.Types.csproj" />
+    <ProjectReference Include="..\PlatformX.Storage.Behaviours\PlatformX.Storage.Behaviours.csproj" />
   </ItemGroup>
 
 </Project>

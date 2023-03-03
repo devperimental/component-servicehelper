@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.Storage.Azure;
 using PlatformX.Storage.Types;
 using System;
@@ -15,7 +14,6 @@ namespace PlatformX.Storage.NTesting
     public class AzureStorageTests
     {
         private StorageDefinition _storageDefinition;
-        private BootstrapConfiguration _bootstrapConfig = new BootstrapConfiguration { Environment = "local"};
         private AzureStorage<AzureStorageTests> _storage;
         [SetUp]
         public void Setup()
@@ -31,7 +29,7 @@ namespace PlatformX.Storage.NTesting
 
             if (_storage == null)
             {
-                _storage = new AzureStorage<AzureStorageTests>(_bootstrapConfig, traceLogger.Object);
+                _storage = new AzureStorage<AzureStorageTests>("dev", traceLogger.Object);
             }
             
         }

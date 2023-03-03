@@ -4,7 +4,7 @@ using PlatformX.Messaging.Behaviours;
 using PlatformX.Messaging.Types;
 using PlatformX.Messaging.Types.Constants;
 using PlatformX.Queues.Behaviours;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

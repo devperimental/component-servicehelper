@@ -6,24 +6,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.9" />
-    <PackageReference Include="PlatformX.Common.Behaviours" Version="4.4.0" />
-    <PackageReference Include="PlatformX.FunctionLayer.Behaviours" Version="7.3.0" />
-    <PackageReference Include="PlatformX.Http.Helper" Version="4.4.0" />
-    <PackageReference Include="PlatformX.Secrets.Behaviours" Version="5.0.0" />
-    <PackageReference Include="PlatformX.Secrets.Factory" Version="5.0.0" />
-    <PackageReference Include="PlatformX.ServiceLayer.Behaviours" Version="7.3.0" />
-    <PackageReference Include="PlatformX.Settings.Behaviours" Version="5.0.0" />
-    <PackageReference Include="PlatformX.Settings.Helper" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.2.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="PlatformX.Common.Config" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PlatformX.FunctionLayer.Behaviours\PlatformX.FunctionLayer.Behaviours.csproj" />
     <ProjectReference Include="..\PlatformX.Messaging.Helper\PlatformX.Messaging.Helper.csproj" />
+    <ProjectReference Include="..\PlatformX.ServiceLayer.Behaviours\PlatformX.ServiceLayer.Behaviours.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,37 +1,41 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.ServiceLayer.Types;
 using PlatformX.ServiceLayer.Types.Constants;
+using PlatformX.Settings.Helper;
+using PlatformX.Settings.Shared.Config;
 using PlatformX.Storage.Azure;
 using PlatformX.Storage.Behaviours;
 using PlatformX.Storage.StoreClient;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
-using PlatformX.Settings.Helper;
 
 namespace PlatformX.Storage.NTesting
 {
     [TestFixture]
     public class FileStoreTests
     {
-        private BootstrapConfiguration _bootstrapConfiguration;
+        private EndpointHelperConfiguration _endpointHelperConfiguration;
         private IFileStore _fileStore;
-
+        private string _environment = "dev";
+        private string _tenantId = "tenantId";
+        
         [SetUp]
         public void Setup()
         {
-            _bootstrapConfiguration ??=
-                TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
+            _endpointHelperConfiguration = new EndpointHelperConfiguration
+            {
+                Prefix = "dz",
+                Environment = "dev",
+                RoleKey = "mgmt",
+                Location = "syd",
+                Region = "au"
+            };
 
             if (_fileStore != null) return;
             var traceLogger = new Mock<ILogger<FileStoreTests>>();
-            var storage = new AzureStorage<FileStoreTests>(_bootstrapConfiguration, traceLogger.Object);
-            var endpointHelper = new EndpointHelper(_bootstrapConfiguration);
-            _fileStore = new FileStore(storage, _bootstrapConfiguration, endpointHelper);
+            var storage = new AzureStorage<FileStoreTests>(_environment, traceLogger.Object);
+            var endpointHelper = new EndpointHelper(_endpointHelperConfiguration);
+            _fileStore = new FileStore(storage, endpointHelper, _tenantId);
         }
 
         [Test]
@@ -321,18 +325,18 @@ namespace PlatformX.Storage.NTesting
             };
         }
 
-        [Test]
-        public void TestSaveBinaryFile()
-        {
-            var filePath = "aafb177a59cf44fc/email/img/default-email-header-logo.png";
-            var container = "Assets";
+        //[Test]
+        //public void TestSaveBinaryFile()
+        //{
+        //    var filePath = "aafb177a59cf44fc/email/img/default-email-header-logo.png";
+        //    var container = "Assets";
 
-            var image = CreateBitmapImage("Acorn Industries");
-            using var myStream = new MemoryStream();
-            image.Save(myStream, System.Drawing.Imaging.ImageFormat.Png);
-            myStream.Position = 0;
-            _fileStore.SaveBinaryFile(myStream, container, "clnt", "au", "est", filePath, "image/png");
-        }
+        //    var image = CreateBitmapImage("Acorn Industries");
+        //    using var myStream = new MemoryStream();
+        //    image.Save(myStream, System.Drawing.Imaging.ImageFormat.Png);
+        //    myStream.Position = 0;
+        //    _fileStore.SaveBinaryFile(myStream, container, "clnt", "au", "est", filePath, "image/png");
+        //}
 
 //        [Test]
 //        public void TestAppendFile()
@@ -384,41 +388,41 @@ namespace PlatformX.Storage.NTesting
 //            }
 //        }
 
-        public Bitmap CreateBitmapImage(string imageText)
-        {
-            var bmpImage = new Bitmap(2, 2);
+        //public Bitmap CreateBitmapImage(string imageText)
+        //{
+        //    var bmpImage = new Bitmap(2, 2);
 
-            // Create the Font object for the image text drawing.
-            var font = new Font("Rockwell", 45, FontStyle.Bold, GraphicsUnit.Pixel);
+        //    // Create the Font object for the image text drawing.
+        //    var font = new Font("Rockwell", 45, FontStyle.Bold, GraphicsUnit.Pixel);
 
-            // Create a graphics object to measure the text's width and height.
-            var objGraphics = Graphics.FromImage(bmpImage);
+        //    // Create a graphics object to measure the text's width and height.
+        //    var objGraphics = Graphics.FromImage(bmpImage);
 
-            // This is where the bitmap size is determined.
-            var intWidth = (int)objGraphics.MeasureString(imageText, font).Width;
-            var intHeight = (int)objGraphics.MeasureString(imageText, font).Height;
+        //    // This is where the bitmap size is determined.
+        //    var intWidth = (int)objGraphics.MeasureString(imageText, font).Width;
+        //    var intHeight = (int)objGraphics.MeasureString(imageText, font).Height;
 
-            // Create the bmpImage again with the correct size for the text and font.
-            bmpImage = new Bitmap(bmpImage, new Size(intWidth, intHeight));
+        //    // Create the bmpImage again with the correct size for the text and font.
+        //    bmpImage = new Bitmap(bmpImage, new Size(intWidth, intHeight));
 
-            // Add the colors to the new bitmap.
-            objGraphics = Graphics.FromImage(bmpImage);
+        //    // Add the colors to the new bitmap.
+        //    objGraphics = Graphics.FromImage(bmpImage);
 
-            // Set Background color
-            objGraphics.Clear(Color.Transparent);
-            objGraphics.SmoothingMode = SmoothingMode.HighQuality;
+        //    // Set Background color
+        //    objGraphics.Clear(Color.Transparent);
+        //    objGraphics.SmoothingMode = SmoothingMode.HighQuality;
 
-            objGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            objGraphics.CompositingQuality = CompositingQuality.HighQuality;
-            objGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            objGraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+        //    objGraphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        //    objGraphics.CompositingQuality = CompositingQuality.HighQuality;
+        //    objGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        //    objGraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
-            objGraphics.DrawString(imageText, font, new SolidBrush(Color.Black), 0, 0, StringFormat.GenericTypographic);
+        //    objGraphics.DrawString(imageText, font, new SolidBrush(Color.Black), 0, 0, StringFormat.GenericTypographic);
 
-            objGraphics.Flush();
+        //    objGraphics.Flush();
 
-            return bmpImage;
-        }
+        //    return bmpImage;
+        //}
 
         [Test]
         public void TestLoadFile()

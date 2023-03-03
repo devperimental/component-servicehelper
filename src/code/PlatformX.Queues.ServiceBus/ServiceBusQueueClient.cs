@@ -6,8 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using PlatformX.Common.Types.DataContract;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using PlatformX.Messaging.Types.Constants;
 
 namespace PlatformX.Queues.ServiceBus
@@ -16,18 +15,17 @@ namespace PlatformX.Queues.ServiceBus
     {
         private readonly Dictionary<string, QueueClient> _queueClient;
         private readonly IEndpointHelper _endpointHelper;
-        private readonly BootstrapConfiguration _bootstrapConfiguration;
         private readonly ILogger<TLog> _traceLogger;
         private readonly object _lockMe = new object();
-
+        private string _tenantId;
         public ServiceBusQueueClient(ILogger<TLog> traceLogger,
             IEndpointHelper endpointHelper,
-            BootstrapConfiguration bootstrapConfiguration)
+            string tenantId)
         {
             _traceLogger = traceLogger;
             _endpointHelper = endpointHelper;
-            _bootstrapConfiguration = bootstrapConfiguration;
             _queueClient = new Dictionary<string, QueueClient>();
+            _tenantId = tenantId;
         }
 
         private QueueClient GetQueue(string queueName, string serviceBusNamespace)
@@ -51,7 +49,7 @@ namespace PlatformX.Queues.ServiceBus
                         return _queueClient[queueKey];
                         
                     var endpoint = serviceBusNamespace + ".servicebus.windows.net";
-                    var tokenProvider = new ServiceBusTokenProvider(_bootstrapConfiguration.TenantId);
+                    var tokenProvider = new ServiceBusTokenProvider(_tenantId);
                     _queueClient[queueKey] = new QueueClient(endpoint, queueName, tokenProvider);
                 }
                 return _queueClient[queueKey];
@@ -127,10 +125,7 @@ namespace PlatformX.Queues.ServiceBus
 
         private async Task QueueMessage(string data, Dictionary<string, string> headers, string messageId, string serviceBusNamespace, string queueName, int deferSeconds)
         {
-            if (_bootstrapConfiguration.LogMessages)
-            {
-                _traceLogger.LogInformation($"Begin sendMessage queue:{queueName} and namespace:{serviceBusNamespace}");
-            }
+            _traceLogger.LogInformation($"Begin sendMessage queue:{queueName} and namespace:{serviceBusNamespace}");
 
             var queueClient = GetQueue(queueName, serviceBusNamespace);
 
@@ -158,13 +153,7 @@ namespace PlatformX.Queues.ServiceBus
                 await queueClient.SendAsync(brokeredMessage);
             }
 
-            
-            
-
-            if (_bootstrapConfiguration.LogMessages)
-            {
-                _traceLogger.LogInformation($"End sendMessage queue:{queueName} and namespace:{serviceBusNamespace}");
-            }
+            _traceLogger.LogInformation($"End sendMessage queue:{queueName} and namespace:{serviceBusNamespace}");
         }
     }
 }

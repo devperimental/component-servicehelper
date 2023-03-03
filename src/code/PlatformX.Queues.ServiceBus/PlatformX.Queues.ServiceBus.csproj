@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -8,10 +8,12 @@
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.3" />
     <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.6.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
-    <PackageReference Include="PlatformX.Common.Types" Version="4.4.0" />
-    <PackageReference Include="PlatformX.Queues.Behaviours" Version="7.3.0" />
-    <PackageReference Include="PlatformX.Settings.Behaviours" Version="5.0.0" />
+    <PackageReference Include="PlatformX.Settings.Shared" Version="1.0.0" />
     <PackageReference Include="Polly" Version="7.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlatformX.Queues.Behaviours\PlatformX.Queues.Behaviours.csproj" />
   </ItemGroup>
 
 </Project>

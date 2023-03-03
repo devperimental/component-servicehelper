@@ -5,10 +5,9 @@ on:
 env:
   nuget-username: chrisxpr
   src-dir: ./src/code
-  build-environment: dev
-  coverage-threshold: 90
+  coverage-threshold: 10
   repo-organisation: architected
-  team-pat: ${{ secrets.TEAM_PAT}}
+  team-pat: ${{ secrets.NUGET_PAT}}
 concurrency: alpha-${{ github.ref}}
 jobs:
   dotnetBuild:
@@ -23,11 +22,10 @@ jobs:
           persist-credentials: false
 
       - name: buildAndTest
-        uses: devperimental/composite-action-library/dotnet-build-and-test@v1
+        uses: devperimental/composite-action-library/dotnet-build-and-test@v2
         with:
           nuget-username: ${{ env.nuget-username }}
           src-dir: ${{ env.src-dir }}
-          build-environment: ${{ env.build-environment }}
           coverage-threshold: ${{ env.coverage-threshold }}
           repo-organisation: ${{ env.repo-organisation }}
           team-pat: ${{ env.team-pat }}

@@ -4,7 +4,7 @@ using PlatformX.Messaging.Types;
 using PlatformX.Messaging.Types.Constants;
 using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.ServiceLayer.Behaviours;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Net;

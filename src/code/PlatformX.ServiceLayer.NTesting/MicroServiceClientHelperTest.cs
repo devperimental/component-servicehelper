@@ -2,49 +2,49 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.Http.Behaviours;
 using PlatformX.Messaging.Helper;
 using PlatformX.Messaging.Types;
+using PlatformX.Messaging.Types.Constants;
 using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.Queues.Behaviours;
 using PlatformX.ServiceLayer.Helper;
 using PlatformX.ServiceLayer.Types;
 using PlatformX.ServiceLayer.Types.Constants;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Helper;
+using PlatformX.Settings.Shared.Behaviours;
+using PlatformX.Settings.Shared.Config;
 using PlatformX.Storage.Azure;
 using PlatformX.Storage.Behaviours;
 using PlatformX.Storage.StoreClient;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using PlatformX.Common.NTesting;
-using PlatformX.Messaging.Types.Constants;
-using PlatformX.Settings.Helper;
 
 namespace PlatformX.ServiceLayer.NTesting
 {
     public class MicroServiceClientHelperTest
     {
-        //private ServiceMetaData _serviceMetaData;
-        private BootstrapConfiguration _bootstrapConfiguration;
+        private EndpointHelperConfiguration _endpointHelperConfiguration;
         private RequestContext _requestContext;
         private GenericRequest _genericRequest;
-
+        private string _tenantId = "tenantId";
+        private string _environment = "dev";
+        
         [SetUp]
         public void Init()
         {
-            if (_bootstrapConfiguration == null)
+            _endpointHelperConfiguration = new EndpointHelperConfiguration
             {
-                _bootstrapConfiguration = TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
-            }
+                Prefix = "dz",
+                Environment = "dev",
+                RoleKey = "mgmt",
+                Location = "syd",
+                Region = "au"
+            };
 
             _requestContext = new RequestContext
             {
-                PortalName = _bootstrapConfiguration.PortalName,
-                IpAddress = TestConstants.Default_IpAddress,
-                CorrelationId = TestConstants.Default_CorrelationId,
+                PortalName = "Portal",
+                IpAddress = TestHelper.Default_IpAddress,
+                CorrelationId = TestHelper.Default_CorrelationId,
                 SessionId = Guid.NewGuid().ToString(),
                 IdentityId = Guid.NewGuid().ToString(),
                 OrganisationGlobalId = Guid.NewGuid().ToString(),
@@ -55,7 +55,7 @@ namespace PlatformX.ServiceLayer.NTesting
 
             _genericRequest = new GenericRequest
             {
-                CorrelationId = TestConstants.Default_CorrelationId
+                CorrelationId = TestHelper.Default_CorrelationId
             };
         }
 
@@ -69,16 +69,15 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var protectedConfiguration = new Mock<IProtectedConfiguration>();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
-            protectedConfiguration.Setup(c => c.GetSecretString("PlatformService-AZF-KEY")).Returns(TestConstants.Default_ServiceSecretValue);
-            protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(new BootstrapConfiguration { Environment = "local" });
-
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
+            protectedConfiguration.Setup(c => c.GetSecretString("PlatformService-AZF-KEY")).Returns(TestHelper.Default_ServiceSecretValue);
+            
             var uri = string.Empty;
 
             if (authorized)
             {
-                uri = string.Format(serviceMetaData.Endpoints[0].Uri, operationName, TestConstants.Default_ServiceSecretValue);
+                uri = string.Format(serviceMetaData.Endpoints[0].Uri, operationName, TestHelper.Default_ServiceSecretValue);
             }
             else
             {
@@ -144,9 +143,9 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var protectedConfiguration = new Mock<IProtectedConfiguration>();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
-            protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(new BootstrapConfiguration { Environment = "local" });
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
+            //protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(new BootstrapConfiguration { Environment = "local" });
 
             var helper = new MicroServiceClientHelper<MicroServiceClientHelperTest>(protectedConfiguration.Object, httpRequestHelper.Object, queueClient.Object, hashGenerationHelper, traceLogger.Object, fileStore.Object);
 
@@ -168,9 +167,9 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var protectedConfiguration = new Mock<IProtectedConfiguration>();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
-            protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(new BootstrapConfiguration { Environment= "local"});
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
+            //protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(new BootstrapConfiguration { Environment= "local"});
 
             var helper = new MicroServiceClientHelper<MicroServiceClientHelperTest>(protectedConfiguration.Object, httpRequestHelper.Object, queueClient.Object, hashGenerationHelper, traceLogger.Object, fileStore.Object);
 
@@ -351,15 +350,15 @@ namespace PlatformX.ServiceLayer.NTesting
             var hashGenerationHelper = new HashGenerationHelper();
             var traceLogger = new Mock<ILogger<MicroServiceClientHelperTest>>();
             var queueClient = new Mock<IQueueXClient>();
-            var storageProvider = new AzureStorage<MicroServiceClientHelperTest>(_bootstrapConfiguration, traceLogger.Object);
-            var endpointHelper = new EndpointHelper(_bootstrapConfiguration);
-            var fileStore = new FileStore(storageProvider, _bootstrapConfiguration, endpointHelper);
+            var storageProvider = new AzureStorage<MicroServiceClientHelperTest>(_environment, traceLogger.Object);
+            var endpointHelper = new EndpointHelper(_endpointHelperConfiguration);
+            var fileStore = new FileStore(storageProvider, endpointHelper, _tenantId);
 
             var protectedConfiguration = new Mock<IProtectedConfiguration>();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
-            protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(_bootstrapConfiguration);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
+            //protectedConfiguration.SetupGet(c => c.BootstrapConfiguration).Returns(_bootstrapConfiguration);
 
             var helper = new MicroServiceClientHelper<MicroServiceClientHelperTest>(protectedConfiguration.Object, httpRequestHelper.Object, queueClient.Object, hashGenerationHelper, traceLogger.Object, fileStore);
 

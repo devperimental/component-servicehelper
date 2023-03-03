@@ -27,10 +27,14 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="PlatformX.Http.Helper" Version="1.0.1" />
+		<PackageReference Include="PlatformX.Secrets.Azure" Version="1.0.0" />
+		<PackageReference Include="PlatformX.Settings.Helper" Version="1.0.0" />
 	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PlatformX.Messaging.Helper\PlatformX.Messaging.Helper.csproj" />
+    <ProjectReference Include="..\PlatformX.Queues.Behaviours\PlatformX.Queues.Behaviours.csproj" />
     <ProjectReference Include="..\PlatformX.ServiceLayer.Helper\PlatformX.ServiceLayer.Helper.csproj" />
     <ProjectReference Include="..\PlatformX.Storage.Azure\PlatformX.Storage.Azure.csproj" />
     <ProjectReference Include="..\PlatformX.Storage.StoreClient\PlatformX.Storage.StoreClient.csproj" />

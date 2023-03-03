@@ -1,43 +1,43 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using PlatformX.Common.Types.DataContract;
 using PlatformX.Messaging.Helper;
 using PlatformX.Messaging.Types;
 using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.Queues.Behaviours;
 using PlatformX.ServiceLayer.Helper;
 using PlatformX.ServiceLayer.Types;
-using PlatformX.Settings.Behaviours;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-using PlatformX.Common.NTesting;
+using PlatformX.Settings.Shared.Behaviours;
 using PlatformX.Messaging.Types.Constants;
+using PlatformX.Settings.Shared.Config;
 
 namespace PlatformX.ServiceLayer.NTesting
 {
     public class MicroServiceQueueHelperTest
     {
-        //private ServiceMetaData _serviceMetaData;
-        private BootstrapConfiguration _bootstrapConfiguration;
+        private EndpointHelperConfiguration _endpointHelperConfiguration;
         private RequestContext _requestContext;
         private GenericRequest _genericRequest;
+        private string _tenantId = "tenantId";
+        private string _environment = "dev";
 
         [SetUp]
         public void Init()
         {
-            if (_bootstrapConfiguration == null)
+            _endpointHelperConfiguration = new EndpointHelperConfiguration
             {
-                _bootstrapConfiguration = TestHelper.GetConfiguration<BootstrapConfiguration>(TestContext.CurrentContext.TestDirectory, "Bootstrap");
-            }
+                Prefix = "dz",
+                Environment = "dev",
+                RoleKey = "mgmt",
+                Location = "syd",
+                Region = "au"
+            };
 
             _requestContext = new RequestContext
             {
-                PortalName = _bootstrapConfiguration.PortalName,
-                IpAddress = TestConstants.Default_IpAddress,
-                CorrelationId = TestConstants.Default_CorrelationId,
+                PortalName = "Portal",
+                IpAddress = TestHelper.Default_IpAddress,
+                CorrelationId = TestHelper.Default_CorrelationId,
                 SessionId = Guid.NewGuid().ToString(),
                 IdentityId = Guid.NewGuid().ToString(),
                 OrganisationGlobalId = Guid.NewGuid().ToString(),
@@ -48,7 +48,7 @@ namespace PlatformX.ServiceLayer.NTesting
 
             _genericRequest = new GenericRequest
             {
-                CorrelationId = TestConstants.Default_CorrelationId
+                CorrelationId = TestHelper.Default_CorrelationId
             };
         }
 
@@ -62,8 +62,8 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var serviceMetaData = CreateServiceMetaData();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
 
             var helper = new MicroServiceQueueHelper<MicroServiceQueueHelperTest>(protectedConfiguration.Object, 
                 hashGenerationHelper,
@@ -85,8 +85,8 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var serviceMetaData = CreateServiceMetaData();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
 
             var helper = new MicroServiceQueueHelper<MicroServiceQueueHelperTest>(protectedConfiguration.Object,
                 hashGenerationHelper,
@@ -108,8 +108,8 @@ namespace PlatformX.ServiceLayer.NTesting
 
             var serviceMetaData = CreateServiceMetaData();
 
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestConstants.Default_ServiceKeyValue);
-            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestConstants.Default_ServiceSecretValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceKey.ToString()])).Returns(TestHelper.Default_ServiceKeyValue);
+            protectedConfiguration.Setup(c => c.GetSecretString(serviceMetaData.Keys[ServiceConfigurationKeyType.ServiceSecret.ToString()])).Returns(TestHelper.Default_ServiceSecretValue);
 
             var helper = new MicroServiceQueueHelper<MicroServiceQueueHelperTest>(protectedConfiguration.Object,
                 hashGenerationHelper,

@@ -8,9 +8,11 @@
     <PackageReference Include="Azure.Core" Version="1.16.0" />
     <PackageReference Include="Azure.Identity" Version="1.4.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
-    <PackageReference Include="PlatformX.Common.Types" Version="4.4.0" />
-    <PackageReference Include="PlatformX.Storage.Behaviours" Version="7.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlatformX.Storage.Behaviours\PlatformX.Storage.Behaviours.csproj" />
   </ItemGroup>
 
 </Project>

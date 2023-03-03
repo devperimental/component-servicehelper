@@ -10,24 +10,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
-using PlatformX.Common.Types.DataContract;
+//using PlatformX.Common.Types.DataContract;
 using Azure;
 
 namespace PlatformX.Storage.Azure
 {
     public class AzureStorage<TLog> : IStorageProvider
     {
-        private readonly BootstrapConfiguration _bootstrapConfig;
+        //private readonly BootstrapConfiguration _bootstrapConfig;
         private readonly ILogger<TLog> _traceLogger;
         private readonly Dictionary<string,BlobContainerClient> _containerClientList;
         private static readonly object LockObject = new object();
         private bool _refreshCredentials = false;
+        private string _environment;
 
         //https://github.com/Azure/azure-sdk-for-net/tree/master/sdk/storage/Azure.Storage.Blobs/samples
-        public AzureStorage(BootstrapConfiguration bootstrapConfig, ILogger<TLog> traceLogger)
+        public AzureStorage(string environment, ILogger<TLog> traceLogger)
         {
             _traceLogger = traceLogger;
-            _bootstrapConfig = bootstrapConfig;
+            _environment = environment;
             _containerClientList = new Dictionary<string, BlobContainerClient>();
         }
 
@@ -58,7 +59,7 @@ namespace PlatformX.Storage.Azure
             {
                 if (!_containerClientList.ContainsKey(containerKey))
                 {
-                    if (_bootstrapConfig.Environment == "local")
+                    if (_environment == "local")
                     {
                         var credential = new VisualStudioCredential(new VisualStudioCredentialOptions { TenantId = storageDefinition.TenantId });
                         _containerClientList[containerKey] = new BlobContainerClient(new Uri(containerEndpoint), credential);

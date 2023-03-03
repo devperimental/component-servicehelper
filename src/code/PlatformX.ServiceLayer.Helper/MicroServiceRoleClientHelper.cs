@@ -8,7 +8,7 @@ using PlatformX.Messaging.Types.EnumTypes;
 using PlatformX.ServiceLayer.Behaviours;
 using PlatformX.ServiceLayer.Types;
 using PlatformX.ServiceLayer.Types.Constants;
-using PlatformX.Settings.Behaviours;
+using PlatformX.Settings.Shared.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;

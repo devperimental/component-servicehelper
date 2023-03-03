@@ -4,6 +4,11 @@ namespace PlatformX.ServiceLayer.NTesting
 {
     public class TestHelper
     {
+        public static string Default_IpAddress { get; internal set; }
+        public static string Default_CorrelationId { get; internal set; }
+        public static string Default_ServiceKeyValue { get; internal set; }
+        public static string Default_ServiceSecretValue { get; internal set; }
+
         public static IConfigurationRoot GetIConfigurationRoot(string outputPath)
         {
             return new ConfigurationBuilder()
