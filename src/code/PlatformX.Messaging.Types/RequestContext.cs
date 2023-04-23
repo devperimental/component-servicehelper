@@ -1,4 +1,6 @@
-﻿namespace PlatformX.Messaging.Types
+﻿using PlatformX.Messaging.Types.Constants;
+
+namespace PlatformX.Messaging.Types
 {
     public class RequestContext
     {
@@ -13,7 +15,13 @@
         public string OrganisationGlobalId { get; set; }
         public string UserGlobalId { get; set; }
         
-        public string SystemApiRoleType { get; set; }
+        public string SourceTypeKey { get; set; }
+        public string SourceTypeValue
+        { 
+            get {
+                return SourceTypeKey == SystemApiRoleType.Client ? ClientApplicationKey : PortalName;
+            }
+        }
 
         public string ClientApplicationKey { get; set; }
         public string ClientApiKey { get; set; }
