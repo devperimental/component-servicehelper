@@ -227,23 +227,23 @@ namespace PlatformX.ServiceLayer.Helper
                     IdentityId = serviceHeader.IdentityId,
                     OrganisationGlobalId = serviceHeader.OrganisationGlobalId,
                     UserGlobalId = serviceHeader.UserGlobalId,
-                    SystemApiRoleType = serviceHeader.SystemApiRoleType,
+                    SourceTypeKey = serviceHeader.SystemApiRoleType,
                     ResponseCode = (int)HttpStatusCode.OK,
                     ResponseContent = context.ResponseContent
                 };
 
-                if (context.SystemApiRoleType == SystemApiRoleType.Client)
+                if (context.SourceTypeValue == SystemApiRoleType.Client)
                 {
                     context.ClientApplicationKey = serviceHeader.ClientApplicationKey;
                     context.ClientApiKey = serviceHeader.ClientApiKey;
                     context.ClientApplicationGlobalId = serviceHeader.ClientApplicationGlobalId;
                     context.ClientAppEnvironment = serviceHeader.ClientAppEnvironment;
                 }
-                else if (context.SystemApiRoleType == SystemApiRoleType.Management)
+                else if (context.SourceTypeValue == SystemApiRoleType.Management)
                 {
                     context.ClientAppEnvironment = "MGMT";
                 }
-                else if (context.SystemApiRoleType == SystemApiRoleType.Portal)
+                else if (context.SourceTypeValue == SystemApiRoleType.Portal)
                 {
                     context.ClientAppEnvironment = "PRTL";
                 }

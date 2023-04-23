@@ -117,10 +117,10 @@ namespace PlatformX.ServiceLayer.Helper
                 { ServiceHeaderConstants.CorrelationId, requestContext.CorrelationId},
                 { ServiceHeaderConstants.SessionId, requestContext.SessionId},
                 { ServiceHeaderConstants.IdentityId, requestContext.IdentityId},
-                { ServiceHeaderConstants.SystemApiRoleType, requestContext.SystemApiRoleType}
+                { ServiceHeaderConstants.SystemApiRoleType, requestContext.SourceTypeValue}
             };
 
-            if (requestContext.SystemApiRoleType == SystemApiRoleType.Client)
+            if (requestContext.SourceTypeValue == SystemApiRoleType.Client)
             {
                 headers.Add(ServiceHeaderConstants.ClientApplicationKey, requestContext.ClientApplicationKey);
                 headers.Add(ServiceHeaderConstants.ClientApiKey, requestContext.ClientApiKey);

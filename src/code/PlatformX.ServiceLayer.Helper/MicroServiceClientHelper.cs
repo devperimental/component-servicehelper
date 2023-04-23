@@ -295,10 +295,10 @@ namespace PlatformX.ServiceLayer.Helper
                 { ServiceHeaderConstants.IdentityId, requestContext.IdentityId},
                 { ServiceHeaderConstants.UserGlobalId, requestContext.UserGlobalId},
                 { ServiceHeaderConstants.OrganisationGlobalId, requestContext.OrganisationGlobalId},
-                { ServiceHeaderConstants.SystemApiRoleType, requestContext.SystemApiRoleType}
+                { ServiceHeaderConstants.SystemApiRoleType, requestContext.SourceTypeValue}
             };
 
-            if (requestContext.SystemApiRoleType == SystemApiRoleType.Client)
+            if (requestContext.SourceTypeValue == SystemApiRoleType.Client)
             {
                 headers.Add(ServiceHeaderConstants.ClientApplicationKey, requestContext.ClientApplicationKey);
                 headers.Add(ServiceHeaderConstants.ClientApiKey, requestContext.ClientApiKey);
