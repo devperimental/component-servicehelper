@@ -12,6 +12,8 @@
         public const string IdentityId = "X-IdentityId";
         public const string UserGlobalId = "X-UserGlobalId";
         public const string OrganisationGlobalId = "X-OrganisationGlobalId";
+        public const string PlanGlobalId = "X-PlanGlobalId";
+        public const string ActiveSubscription = "X-ActiveSubscription";
         public const string SystemApiRoleType = "X-SystemApiRoleType";
         public const string ClientApplicationKey = "X-ClientApplicationKey";
         public const string ClientApiKey = "X-ClientApiKey";

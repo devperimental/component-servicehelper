@@ -293,8 +293,10 @@ namespace PlatformX.ServiceLayer.Helper
                 { ServiceHeaderConstants.CorrelationId, requestContext.CorrelationId},
                 { ServiceHeaderConstants.SessionId, requestContext.SessionId},
                 { ServiceHeaderConstants.IdentityId, requestContext.IdentityId},
-                { ServiceHeaderConstants.UserGlobalId, requestContext.UserGlobalId},
                 { ServiceHeaderConstants.OrganisationGlobalId, requestContext.OrganisationGlobalId},
+                { ServiceHeaderConstants.UserGlobalId, requestContext.UserGlobalId},
+                { ServiceHeaderConstants.PlanGlobalId, requestContext.PlanGlobalId},
+                { ServiceHeaderConstants.ActiveSubscription, requestContext.ActiveSubscription},
                 { ServiceHeaderConstants.SystemApiRoleType, requestContext.SourceTypeValue}
             };
 

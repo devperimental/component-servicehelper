@@ -227,6 +227,8 @@ namespace PlatformX.ServiceLayer.Helper
                     IdentityId = serviceHeader.IdentityId,
                     OrganisationGlobalId = serviceHeader.OrganisationGlobalId,
                     UserGlobalId = serviceHeader.UserGlobalId,
+                    PlanGlobalId = serviceHeader.PlanGlobalId,
+                    ActiveSubscription = serviceHeader.ActiveSubscription,
                     SourceTypeKey = serviceHeader.SystemApiRoleType,
                     ResponseCode = (int)HttpStatusCode.OK,
                     ResponseContent = context.ResponseContent

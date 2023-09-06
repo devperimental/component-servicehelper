@@ -174,6 +174,8 @@ namespace PlatformX.ServiceLayer.Helper
                 { ServiceHeaderConstants.IdentityId, requestContext.IdentityId},
                 { ServiceHeaderConstants.UserGlobalId, requestContext.UserGlobalId},
                 { ServiceHeaderConstants.OrganisationGlobalId, requestContext.OrganisationGlobalId},
+                { ServiceHeaderConstants.PlanGlobalId, requestContext.PlanGlobalId},
+                { ServiceHeaderConstants.ActiveSubscription, requestContext.ActiveSubscription},
                 { ServiceHeaderConstants.SystemApiRoleType, requestContext.SourceTypeValue}
             };
 

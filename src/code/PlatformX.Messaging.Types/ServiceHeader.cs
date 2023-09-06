@@ -12,6 +12,8 @@
         public string IdentityId { get; set; }
         public string OrganisationGlobalId { get; set; }
         public string UserGlobalId { get; set; }
+        public string PlanGlobalId { get; set; }
+        public string ActiveSubscription { get; set; }
         public string SystemApiRoleType { get; set; }
         public string ClientApplicationKey { get; set; }
         public string ClientApiKey { get; set; }
