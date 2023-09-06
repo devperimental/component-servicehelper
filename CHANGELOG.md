@@ -1,3 +1,11 @@
+# [1.0.0-alpha-1.2](https://github.com/devperimental/component-servicehelper/compare/v1.0.0-alpha-1.1...v1.0.0-alpha-1.2) (2023-04-23)
+
+
+### Features
+
+* fix rename ([0643cb5](https://github.com/devperimental/component-servicehelper/commit/0643cb5ff1cae07fc89bfea859dcdd590823cb4a))
+* tidy SourceTypeX fields ([fa7778d](https://github.com/devperimental/component-servicehelper/commit/fa7778d9e567b7c0c4ddd7906945afdd62e7b987))
+
 # 1.0.0-alpha-1.1 (2023-03-03)
 
 
