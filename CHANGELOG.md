@@ -1,3 +1,10 @@
+# [1.0.0-alpha-1.4](https://github.com/devperimental/component-servicehelper/compare/v1.0.0-alpha-1.3...v1.0.0-alpha-1.4) (2024-03-08)
+
+
+### Features
+
+* add email address to Requestcontext ([743cdf1](https://github.com/devperimental/component-servicehelper/commit/743cdf18f010f8195caf975f463d3300285fbbdf))
+
 # [1.0.0-alpha-1.3](https://github.com/devperimental/component-servicehelper/compare/v1.0.0-alpha-1.2...v1.0.0-alpha-1.3) (2023-09-06)
 
 
