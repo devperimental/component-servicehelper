@@ -16,6 +16,7 @@ namespace PlatformX.Messaging.Types
         public string UserGlobalId { get; set; }
         public string PlanGlobalId { get; set; }
         public string ActiveSubscription { get; set; }
+        public string EmailAddress { get; set; }
 
         public string SourceTypeKey { get; set; }
         public string SourceTypeValue
