@@ -1,3 +1,10 @@
+# [1.0.0-alpha-1.3](https://github.com/devperimental/component-servicehelper/compare/v1.0.0-alpha-1.2...v1.0.0-alpha-1.3) (2023-09-06)
+
+
+### Features
+
+* add RequestContext fields ([f769925](https://github.com/devperimental/component-servicehelper/commit/f769925cf9b0a57a80fdf5b9463890fe3441ab4e))
+
 # [1.0.0-alpha-1.2](https://github.com/devperimental/component-servicehelper/compare/v1.0.0-alpha-1.1...v1.0.0-alpha-1.2) (2023-04-23)
 
 
